@@ -1,0 +1,143 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# ----------------------------
+# Create Dataset
+# ----------------------------
+data = {
+    "Student_ID": ["S01","S02","S03","S04","S05","S06","S07","S08","S09","S10",
+                   "S11","S12","S13","S14","S15","S16","S17","S18","S19","S20"],
+
+    "Attendance": [92,55,78,60,88,47,95,72,50,83,66,90,58,76,62,85,45,80,68,53],
+
+    "Study_Hours": [5,2,4,3,5,1,6,3,2,4,3,5,2,4,3,5,1,4,3,2],
+
+    "Internal_Marks": [45,24,38,28,42,20,48,35,22,40,30,44,25,36,29,41,18,39,32,23],
+
+    "Result": ["Pass","Fail","Pass","Fail","Pass","Fail","Pass","Pass","Fail","Pass",
+               "Fail","Pass","Fail","Pass","Fail","Pass","Fail","Pass","Pass","Fail"]
+}
+
+df = pd.DataFrame(data)
+
+# ----------------------------
+# Dataset Information
+# ----------------------------
+print("\n===== DATASET =====")
+print(df)
+
+print("\nShape:", df.shape)
+print("Rows:", df.shape[0])
+print("Columns:", df.shape[1])
+
+print("\nData Types")
+print(df.dtypes)
+
+print("\nMissing Values")
+print(df.isnull().sum())
+
+print("\nDuplicate Values")
+print(df.duplicated().sum())
+
+# ----------------------------
+# Descriptive Statistics
+# ----------------------------
+print("\nDescriptive Statistics")
+print(df.describe())
+
+print("\nMean")
+print(df.mean(numeric_only=True))
+
+print("\nMedian")
+print(df.median(numeric_only=True))
+
+print("\nMode")
+print(df.mode())
+
+print("\nMinimum")
+print(df.min(numeric_only=True))
+
+print("\nMaximum")
+print(df.max(numeric_only=True))
+
+print("\nStandard Deviation")
+print(df.std(numeric_only=True))
+
+print("\nCorrelation")
+print(df.corr(numeric_only=True))
+
+# ----------------------------
+# Bar Chart
+# ----------------------------
+plt.figure(figsize=(6,5))
+df["Result"].value_counts().plot(kind="bar")
+plt.title("Pass vs Fail")
+plt.xlabel("Result")
+plt.ylabel("Count")
+plt.show()
+
+# ----------------------------
+# Histogram
+# ----------------------------
+plt.figure(figsize=(6,5))
+plt.hist(df["Attendance"], bins=5)
+plt.title("Attendance Distribution")
+plt.xlabel("Attendance")
+plt.ylabel("Frequency")
+plt.show()
+
+# ----------------------------
+# Box Plot
+# ----------------------------
+plt.figure(figsize=(6,5))
+plt.boxplot(df["Internal_Marks"])
+plt.title("Internal Marks Box Plot")
+plt.show()
+
+# ----------------------------
+# Scatter Plot
+# ----------------------------
+plt.figure(figsize=(6,5))
+plt.scatter(df["Study_Hours"], df["Internal_Marks"])
+plt.title("Study Hours vs Internal Marks")
+plt.xlabel("Study Hours")
+plt.ylabel("Internal Marks")
+plt.show()
+
+# ----------------------------
+# Pie Chart
+# ----------------------------
+plt.figure(figsize=(6,6))
+df["Result"].value_counts().plot(
+    kind="pie",
+    autopct="%1.1f%%"
+)
+plt.title("Pass Percentage")
+plt.ylabel("")
+plt.show()
+
+# ----------------------------
+# Heatmap (Without Seaborn)
+# ----------------------------
+corr = df.corr(numeric_only=True)
+
+plt.figure(figsize=(6,5))
+plt.imshow(corr, cmap="coolwarm")
+plt.colorbar()
+
+plt.xticks(range(len(corr.columns)), corr.columns, rotation=45)
+plt.yticks(range(len(corr.columns)), corr.columns)
+
+plt.title("Correlation Heatmap")
+plt.show()
+
+print("\n===== OBSERVATIONS =====")
+print("1. No missing values.")
+print("2. No duplicate records.")
+print("3. Students with higher attendance scored better.")
+print("4. More study hours generally lead to higher marks.")
+print("5. Majority of students passed.")
+
+print("\n===== CONCLUSION =====")
+print("Attendance and study hours positively influence internal marks and final results.")
